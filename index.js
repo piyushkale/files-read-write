@@ -4,12 +4,23 @@ const fs=require('fs')
 const server = http.createServer((req,res)=>{
 
     if(req.url === '/'){
-        res.setHeader('Content-Type','text/html')
-        res.end(`<form action="/message" method="POST">
+        fs.readFile('formValues.txt','utf-8',(err,data)=>{
+
+            res.write('<html><body>'); // First chunk of data
+  res.write(`<h1>${data}</h1>`); // Second chunk
+  
+
+res.write(`<form action="/message" method="POST">
             <label for="name"> Enter Name</label>
             <input type="text" name="username" id="name"/>
             <button type="submit">Add</button>
             </form>`)
+  res.end('</body></html>'); // End the response with the final chunk
+
+      
+      
+        })
+       
     }else{
         if (req.url==='/message') {
             res.setHeader('Content-Type','text/html')
